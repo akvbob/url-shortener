@@ -45,7 +45,7 @@ body {
     background: transparent;
 }
 
-.card .url-box label {
+/* .card .url-box label {
     position: absolute;
     top:0;
     left: 0;
@@ -54,10 +54,10 @@ body {
     color: #fff;
     pointer-events: none;
     transition: .5s;
-}
+} */
   
-.card .url-box input:focus ~ label {
-    top: -20px;
+.card .url-box label {
+
     left: 0;
     color: #03e9f4;
     font-size: 12px;
@@ -97,3 +97,23 @@ input[type=submit]:hover {
                 0 0 5px #03e9f4,
                 0 0 5px #03e9f4;
 }
+
+form span, form label {
+    color:#fff;
+}
+
+.messages {
+    list-style-type: none;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+}
+
+.messages .warning {
+    color: #fff000;
+}
+
+.messages .error {
+    color: #ff0000;
+}
+

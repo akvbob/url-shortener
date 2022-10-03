@@ -7,18 +7,34 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="card">
 
-        <h2>{{ title.0}}</h2>
-        
-        <form action="" method="post">{% csrf_token %}
+        <h2>{{ title}}</h2>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form action="{% url 'shortener:index' %}" method="post">{% csrf_token %}
             <div class="url-box">
-                <input type="text" id="url" name="url"  required="">
                 <label>{% trans 'Long URL' %}</label>
+                <input type="text" id="url" name="url"  required="">
+                
             </div>
+
+            {% if short_url %}
+                <label for="short_url">
+                    <b>{% trans "Short URL" %}:</b>
+                </label>
+                <span id="short_url">{{ short_url }}</span>
+            {% endif %}
         
             <input type="submit" value="{% trans 'Shorten URL' %}">
-
+        
+      
         </form>
 
     </div>
