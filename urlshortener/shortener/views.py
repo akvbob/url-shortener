@@ -81,7 +81,7 @@ class ShortURLView(TemplateView):
 
 
 
-class LocateToLongURLView(RedirectView):
+class RedirectToLongURLView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         short_url = self.kwargs.get("short_url")
