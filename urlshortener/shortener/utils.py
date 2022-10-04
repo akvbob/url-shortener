@@ -114,7 +114,9 @@ class MD5Hash(object):
 
 
     def get_url_hash(self, long_url):
-        result = hashlib.md5(long_url.encode())
+        id = ShortLink.objects.count() + 1
+        string_to_hash = '{}{}'.format(str(id), long_url)
+        result = hashlib.md5(string_to_hash.encode())
         
         # get encoded data in hexadecimal format
         return result.hexdigest()
