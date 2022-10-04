@@ -12,7 +12,7 @@ from django.views.generic import RedirectView
 
 from .models import ShortLink
 
-from .utils import given_url_exists, format_user_url, print_timelapse_table, get_algorithm
+from .utils import given_url_exists, format_user_url, print_timelapse_table, get_algorithm, create_shortURL_statistics
 # Create your views here.
 
 
@@ -71,6 +71,5 @@ class RedirectToLongURLView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         short_url = self.kwargs.get("short_url")
         obj = get_object_or_404(ShortLink, short_url=short_url)
-        
+        create_shortURL_statistics(self.request, obj)
         return obj.original_url
-

@@ -4,6 +4,7 @@ import random
 import re
 
 from .models import ShortLink
+from .models import ShortLinkStatistics
 
 ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 SHORT_URL_LENGTH = 8
@@ -50,7 +51,22 @@ def print_timelapse_table(algorithm, end, start):
 
 def calc_time_lapse(end, start):
     return end - start
-    
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def create_shortURL_statistics(request, obj):
+    ip = get_client_ip(request)
+    referrer = request.META.get('HTTP_REFERER')
+    ShortLinkStatistics.objects.create(short_url=obj, ip=ip, referrer_url=referrer)
+
 
 def get_algorithm():
     if USED_ALGORITHM == RANDOM_URL_ALGORITHM:
