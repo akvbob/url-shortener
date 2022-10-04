@@ -13,3 +13,7 @@ class ShortLink(models.Model):
 
         def __str__(self):
             return self.short_url
+
+    
+    def short_url_exists(self, url):
+        return self.objects.filter(short_url=url).exists()

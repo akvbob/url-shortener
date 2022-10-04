@@ -12,7 +12,7 @@ from django.views.generic import RedirectView
 
 from .models import ShortLink
 
-from .utils import givenURLExists, generateUniqueUrlKey, formatUserURL
+from .utils import given_url_exists, format_user_url, print_timelapse_table, get_algorithm
 # Create your views here.
 
 
@@ -20,7 +20,7 @@ from .utils import givenURLExists, generateUniqueUrlKey, formatUserURL
 
 class ShortURLView(TemplateView):
     template_name = 'index.html'
-
+    model = ShortLink
 
     def get_context_data(self, **kwargs):
         context = super(ShortURLView, self).get_context_data(**kwargs)
@@ -34,47 +34,32 @@ class ShortURLView(TemplateView):
         long_url = request.POST.get("url", None)
         short_url = ""
         
-        long_url = formatUserURL(long_url)
+        long_url = format_user_url(long_url)
         self.validate_long_url(long_url)
         
+
+        algorithm = get_algorithm()
         start = time.time()
-        short_url_key = self.generate_short_url()
+        short_url_key = algorithm.get_short_url()
         end = time.time()
 
-        algorithm = 'random_url'
-        time_lapsed = end - start
-        short_url_count = ShortLink.objects.count()
-        print('|-----------------------------------------------------|')
-        print('|    ALGORITHM     | DB ROWS |    TIME                |')
-        print('|-----------------------------------------------------|')
-        print('|    {algorithm}    |   {rows}    | {time} '.format(algorithm=algorithm, rows=short_url_count, time=time_lapsed))
-       
+
+        print_timelapse_table(algorithm, end, start)
 
         host = request.get_host()
-        
         short_url = "{}/{}".format(host, short_url_key)
 
-        ShortLink.objects.create(original_url=long_url, short_url=short_url_key)
+        self.model.objects.create(original_url=long_url, short_url=short_url_key)
         return render(request, "index.html" , {"title": _("URL shortener"), "short_url": short_url })
 
 
-    def short_url_already_exists(self, url):
-        return ShortLink.objects.filter(short_url=url).exists()
-
-
-    def generate_short_url(self):
-        short_url_key = ""
-        while True:
-            short_url_key = generateUniqueUrlKey()
-            if not self.short_url_already_exists(short_url_key):
-                return short_url_key
-    
-
     def validate_long_url(self, long_url):
+
         if long_url is None:
             messages.error(self.request, 'Long URL is required!')
             return render(self.request, "index.html", {"title": _("URL shortener")})
-        if not givenURLExists(long_url):
+
+        if not given_url_exists(long_url):
             messages.error(self.request, 'Website does not exist!')
             return render(self.request, "index.html", {"title": _("URL shortener")})
 
