@@ -40,7 +40,7 @@ class ShortURLView(TemplateView):
 
         algorithm = get_algorithm()
         start = time.time()
-        short_url_key = algorithm.get_short_url()
+        short_url_key = algorithm.get_short_url(long_url)
         end = time.time()
 
 
