@@ -15,9 +15,11 @@ class ShortLinkStatisticsInline(admin.TabularInline):
 
 
 class ShortLinkAdmin(admin.ModelAdmin):
-    fields = ('short_url', 'original_url', 'is_active', 'expiration_time')
-    readonly_fields = ('short_url', 'original_url')
-    list_display = ('original_url', 'short_url', 'is_active')
+    fields = ('short_url', 'original_url', 'is_active', 'expiration_time', 'max_clicks')
+    readonly_fields = ('short_url', 'original_url', 'clicks_count', 'is_expired')
+    list_display = ('original_url', 'short_url', 'is_active', 'clicks_count', 'max_clicks', 'is_expired')
+
+
     inlines = (ShortLinkStatisticsInline,)
 
     def has_add_permission(self, request, obj=None):

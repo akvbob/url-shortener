@@ -8,6 +8,8 @@ from django.utils.translation import gettext as _
 
 from django.views.generic import TemplateView
 from django.views.generic import RedirectView
+from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponseRedirect
 
 from .models import ShortLink
 
@@ -73,6 +75,18 @@ class RedirectToLongURLView(RedirectView):
         if obj.can_be_opened:
             create_shortURL_statistics(self.request, obj)
             return obj.original_url
-            
+
         messages.error(self.request, 'URL is not active at the moment!')
-        return render(self.request, "index.html", {"title": _("URL shortener")})
+        return None
+
+    
+    def get(self, request, *args, **kwargs):
+        url = self.get_redirect_url(*args, **kwargs)
+        
+        if url:
+            if self.permanent:
+                return HttpResponsePermanentRedirect(url)
+            else:
+                return HttpResponseRedirect(url)
+        else: 
+            return render(request, "index.html" , {"title": _("URL shortener")})
