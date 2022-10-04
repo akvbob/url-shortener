@@ -9,5 +9,5 @@ app_name = 'shortener'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ShortURLView.as_view(), name='index'),
-    path('<str:short_url>', RedirectToLongURLView.as_view(), name='long_url'),
+    path('redirect/<str:short_url>', RedirectToLongURLView.as_view(), name='long_url'),
 ]

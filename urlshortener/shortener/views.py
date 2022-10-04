@@ -47,7 +47,7 @@ class ShortURLView(TemplateView):
         print_timelapse_table(algorithm, end, start)
 
         host = request.get_host()
-        short_url = "{}/{}".format(host, short_url_key)
+        short_url = "{}/redirect/{}".format(host, short_url_key)
 
         self.model.objects.create(original_url=long_url, short_url=short_url_key)
         return render(request, "index.html" , {"title": _("URL shortener"), "short_url": short_url })

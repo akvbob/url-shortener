@@ -7,12 +7,11 @@ from django.db import models
 class ShortLink(models.Model):
     short_url = models.CharField(max_length=255)
     original_url = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
 
 
-    class Meta:
-
-        def __str__(self):
-            return self.short_url
+    def __str__(self):
+        return self.original_url
 
     
     def short_url_exists(self, url):
