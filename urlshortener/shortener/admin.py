@@ -15,7 +15,7 @@ class ShortLinkStatisticsInline(admin.TabularInline):
 
 
 class ShortLinkAdmin(admin.ModelAdmin):
-    fields = ('short_url', 'original_url', 'is_active')
+    fields = ('short_url', 'original_url', 'is_active', 'expiration_time')
     readonly_fields = ('short_url', 'original_url')
     list_display = ('original_url', 'short_url', 'is_active')
     inlines = (ShortLinkStatisticsInline,)

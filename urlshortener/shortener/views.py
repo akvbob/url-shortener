@@ -3,7 +3,6 @@ import time
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 
 from django.utils.translation import gettext as _
 
@@ -14,7 +13,6 @@ from .models import ShortLink
 
 from .utils import given_url_exists, format_user_url, print_timelapse_table, get_algorithm, create_shortURL_statistics
 # Create your views here.
-
 
 
 
@@ -71,5 +69,10 @@ class RedirectToLongURLView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         short_url = self.kwargs.get("short_url")
         obj = get_object_or_404(ShortLink, short_url=short_url)
-        create_shortURL_statistics(self.request, obj)
-        return obj.original_url
+        
+        if obj.can_be_opened:
+            create_shortURL_statistics(self.request, obj)
+            return obj.original_url
+            
+        messages.error(self.request, 'URL is not active at the moment!')
+        return render(self.request, "index.html", {"title": _("URL shortener")})

@@ -89,8 +89,6 @@ DATABASES = {
         'HOST': env("DATABASE_HOST"),
         'PORT': env("DATABASE_PORT")
     }
-
-
 }
 
 
