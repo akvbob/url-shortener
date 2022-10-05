@@ -5,7 +5,9 @@ import re
 
 from .models import ShortLink
 from .models import ShortLinkStatistics
+from django.utils.translation import gettext as _
 
+APP_TITLE = _("URL shortener")
 ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 SHORT_URL_LENGTH = 8
 
