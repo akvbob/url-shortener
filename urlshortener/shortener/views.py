@@ -35,7 +35,7 @@ class ShortURLView(TemplateView):
         long_url = request.POST.get("url", None)
         short_url = ""
         
-        self.validate_long_url(long_url)
+        long_url = self.validate_long_url(long_url)
         
         algorithm = get_algorithm()
         start = time.time()
@@ -60,6 +60,7 @@ class ShortURLView(TemplateView):
         if not given_url_exists(long_url):
             messages.error(self.request, _('Website does not exist!'))
             return render(self.request, self.template_name, {"title": APP_TITLE})
+        return long_url
 
 
 

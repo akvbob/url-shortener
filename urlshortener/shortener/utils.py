@@ -21,7 +21,7 @@ AlGORITHMS = [
     (MD5_HASH, 'MD5 hash')
 ]
 
-USED_ALGORITHM = MD5_HASH
+USED_ALGORITHM = BASE62_CONVERSION_ALGORITHM
 
 def given_url_exists(user_url):
     try:

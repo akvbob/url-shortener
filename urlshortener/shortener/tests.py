@@ -1,3 +1,5 @@
+import time
+
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -85,3 +87,15 @@ class RedirectToLongURLViewTest(TestCase):
         response = self.client.get(path=path)
         self.assertEqual(response.status_code, 200)
         assert_error_message(self, response,  _('URL is not active at the moment!'))
+    
+    def test_timelapse_of_redirect(self):
+        obj = create_short_url()
+        path = get_path(obj)
+
+        start = time.time()
+        response = self.client.get(path=path)
+    
+        end = time.time()
+        time_lapse = end - start
+        print('redirect count: {} | time: {}'.format('200', time_lapse))
+        
