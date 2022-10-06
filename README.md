@@ -1,9 +1,10 @@
 # URL shortener for Vilantis
 
 
-## Installation
+# Installation
 
-## Considered url generation implementation ways:
+
+# Considered url generation implementation ways:
 1. **Short URL from random leters and numbers.**
    Just making a random choice for each character and checking if this short url exists in DB or not. If it doesn‘t exist return the short url else generate another url.
 
@@ -22,10 +23,13 @@
 	**Noticed problem:** the more I try to shorten the same long URL, the longer it gets.
     So I decided to modify this algorithm and before hashing use the second approach (use incremental counter), concat it with long url and then hash it with md5. Then I entered the same long_url and result I got is x2 faster than before.
 
+## I made a chart to compare these implementations speed
 ![I made a chart to compare these implementations speed](./url-shortener-chart.PNG)
+
+## A benchmark to showcase the speed of redirecting from short to long URLs
 ![A benchmark to showcase the speed of redirecting from short to long URLs](./url-shortener-redirect-chart.PNG)
 
-## Requirements
+# Requirements
 **Required**
 
 - [x] On the main page of the service, provide a web interface by which a user can shorten a URL;
@@ -43,6 +47,6 @@
 - [x] Record the click statistics for each short URLs that the user has created and display it in the admin interface: time; IP address; HTTP Referer;
 - [x] Expiration time: automatically deactivate the URL at a given time (configured per URL in the admin interface);
 - [x] Limit maximum number of clicks on URL: automatically deactivate the URL after the limit is reached;
-- [] Allow to run the service with docker-compose up command;
+- [ ] Allow to run the service with docker-compose up command;
 - [x] Provide a benchmark to showcase the speed of redirecting from short to long URLs.
 
