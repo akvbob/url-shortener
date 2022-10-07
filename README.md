@@ -3,6 +3,33 @@
 
 # Installation
 
+Create virtual environment:
+```
+python -m venv .venv
+```
+
+Activate virtual environment:
+```
+source .venv/bin/activate
+```
+
+```
+pip install -r requirements.txt
+cd urlshortener
+```
+Then create .env file (see .env.example).
+
+Setup mysql database:
+```
+mysql –u root –p 
+Create database DATABASE_NAME_DEFINED_IN_ENV_FILE;
+```
+Migrate database, create admin user and run the service
+```
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
 
 # Considered url generation implementation ways:
 1. **Short URL from random leters and numbers.**
@@ -20,14 +47,13 @@
 4. **MD5 hashing algorithm.**
     Firstly long URL is encoded by this algorithm, then we take first 8 characters of it.
     Although The first 8 chacacters can be the same for different long URLs, so we need to check the DB to verify that shorten url is not used already. If it is already used, system tries next 8 characters of the same hashed value and continue until unique value is found.
-	**Noticed problem:** the more I try to shorten the same long URL, the longer it gets.
+	
+    **Noticed problem:** the more I try to shorten the same long URL, the longer it gets.
     So I decided to modify this algorithm and before hashing use the second approach (use incremental counter), concat it with long url and then hash it with md5. Then I entered the same long_url and result I got is x2 faster than before.
 
 ## I made a chart to compare these implementations speed
 ![I made a chart to compare these implementations speed](./url-shortener-chart.PNG)
 
-## A benchmark to showcase the speed of redirecting from short to long URLs
-![A benchmark to showcase the speed of redirecting from short to long URLs](./url-shortener-redirect-chart.PNG)
 
 # Requirements
 **Required**
@@ -48,5 +74,5 @@
 - [x] Expiration time: automatically deactivate the URL at a given time (configured per URL in the admin interface);
 - [x] Limit maximum number of clicks on URL: automatically deactivate the URL after the limit is reached;
 - [ ] Allow to run the service with docker-compose up command;
-- [x] Provide a benchmark to showcase the speed of redirecting from short to long URLs.
+- [ ] Provide a benchmark to showcase the speed of redirecting from short to long URLs.
 
