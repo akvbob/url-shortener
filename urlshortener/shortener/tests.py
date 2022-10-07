@@ -9,13 +9,13 @@ from .utils import Base62Conversion
 
 
 def create_short_url():
-    long_url = "https://www.google.com/"
+    long_url = 'https://www.google.com/'
     algorithm = Base62Conversion()
     short_url = algorithm.get_short_url(long_url)
     return ShortLink.objects.create(original_url=long_url, short_url=short_url)
 
 def get_path(obj):
-    return "/redirect/{}".format(obj.short_url)
+    return '/redirect/{}'.format(obj.short_url)
 
 def assert_error_message(self, response, message):
     messages = list(response.context['messages'])
@@ -27,9 +27,9 @@ def assert_error_message(self, response, message):
 class ShortURLViewTest(TestCase):
 
     def setUp(self):
-        self.long_url_exists = {"url": "https://www.google.com/"}
-        self.long_url_not_exists = {"url": "abcd"}
-        self.long_url_not_entered = {"url": ""}
+        self.long_url_exists = {'url': 'https://www.google.com/'}
+        self.long_url_not_exists = {'url': 'abcd'}
+        self.long_url_not_entered = {'url': ''}
         
 
     def test_view_url_exists_at_desired_location(self):
@@ -63,7 +63,7 @@ class ShortURLViewTest(TestCase):
         response1 = self.client.post(path=reverse('shortener:index'), data=self.long_url_exists)
         response2 = self.client.post(path=reverse('shortener:index'), data=self.long_url_exists)
         
-        self.assertNotEqual(response1.context["short_url"], response2.context["short_url"])
+        self.assertNotEqual(response1.context['short_url'], response2.context['short_url'])
 
 
 
@@ -87,15 +87,3 @@ class RedirectToLongURLViewTest(TestCase):
         response = self.client.get(path=path)
         self.assertEqual(response.status_code, 200)
         assert_error_message(self, response,  _('URL is not active at the moment!'))
-    
-    def test_timelapse_of_redirect(self):
-        obj = create_short_url()
-        path = get_path(obj)
-
-        start = time.time()
-        response = self.client.get(path=path)
-    
-        end = time.time()
-        time_lapse = end - start
-        print('redirect count: {} | time: {}'.format('200', time_lapse))
-        

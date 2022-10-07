@@ -15,7 +15,10 @@ source .venv/bin/activate
 
 ```
 pip install -r requirements.txt
-cd urlshortener
+```
+
+```
+cd urlshortener  #the same level where .env.example is
 ```
 Then create .env file (see .env.example).
 

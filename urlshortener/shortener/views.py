@@ -32,8 +32,8 @@ class ShortURLView(TemplateView):
 
 
     def post(self, request, *args, **kwargs):
-        long_url = request.POST.get("url", None)
-        short_url = ""
+        long_url = request.POST.get('url', None)
+        short_url = ''
         
         long_url = self.validate_long_url(long_url)
         
@@ -48,7 +48,7 @@ class ShortURLView(TemplateView):
         short_url = "{}/redirect/{}".format(host, short_url_key)
 
         self.model.objects.create(original_url=long_url, short_url=short_url_key)
-        return render(request, self.template_name , {"title": APP_TITLE, "short_url": short_url })
+        return render(request, self.template_name , {'title': APP_TITLE, 'short_url': short_url })
 
 
     def validate_long_url(self, long_url):
@@ -59,7 +59,7 @@ class ShortURLView(TemplateView):
         long_url = format_user_url(long_url)
         if not given_url_exists(long_url):
             messages.error(self.request, _('Website does not exist!'))
-            return render(self.request, self.template_name, {"title": APP_TITLE})
+            return render(self.request, self.template_name, {'title': APP_TITLE})
         return long_url
 
 
@@ -68,7 +68,7 @@ class ShortURLView(TemplateView):
 class RedirectToLongURLView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        short_url = self.kwargs.get("short_url")
+        short_url = self.kwargs.get('short_url')
         obj = get_object_or_404(ShortLink, short_url=short_url)
         
         if obj.can_be_opened:
@@ -88,4 +88,4 @@ class RedirectToLongURLView(RedirectView):
             else:
                 return HttpResponseRedirect(url)
         else: 
-            return render(request, "index.html" , {"title": APP_TITLE})
+            return render(request, 'index.html' , {'title': APP_TITLE})

@@ -5,8 +5,8 @@ from .models import ShortLink, ShortLinkStatistics
 
 class ShortLinkStatisticsInline(admin.TabularInline):
     model = ShortLinkStatistics
-    fields = ("time", "ip", "referrer_url")
-    readonly_fields = ("time", "ip", "referrer_url")
+    fields = ('time', 'ip', 'referrer_url')
+    readonly_fields = ('time', 'ip', 'referrer_url')
 
 
     def has_add_permission(self, request, obj=None):
